@@ -205,12 +205,29 @@ type NIMServiceStatus struct {
 	AvailableReplicas int32              `json:"availableReplicas,omitempty"`
 	State             string             `json:"state,omitempty"`
 	Model             *ModelStatus       `json:"model,omitempty"`
+	// ImageProtocol records the download protocol resolved for a direct NIMService.
+	// It is reused while the image reference is unchanged.
+	ImageProtocol *ImageProtocolStatus `json:"imageProtocol,omitempty"`
+	// ImageProtocolFailures counts consecutive failed inspections for the current image.
+	ImageProtocolFailures *ImageProtocolFailureStatus `json:"imageProtocolFailures,omitempty"`
 	// DRAResourceStatuses is the status of the DRA resources.
 	// +listType=map
 	// +listMapKey=name
 	DRAResourceStatuses []DRAResourceStatus `json:"draResourceStatuses,omitempty"`
 	// ComputeDomainStatus is the status of the ComputeDomain for a multi-node NIMService.
 	ComputeDomainStatus *ComputeDomainStatus `json:"computeDomainStatus,omitempty"`
+}
+
+// ImageProtocolStatus is the last successful registry inspection of a serving image.
+type ImageProtocolStatus struct {
+	Image    string `json:"image"`
+	Protocol string `json:"protocol"`
+}
+
+// ImageProtocolFailureStatus records failed lookups for one serving image.
+type ImageProtocolFailureStatus struct {
+	Image    string `json:"image"`
+	Attempts int32  `json:"attempts"`
 }
 
 // ModelStatus defines the configuration of the NIMService model.

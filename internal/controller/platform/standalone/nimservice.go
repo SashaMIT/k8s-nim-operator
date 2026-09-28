@@ -561,7 +561,7 @@ func (r *NIMServiceReconciler) reconcileNIMService(ctx context.Context, nimServi
 		deploymentParams.OrchestratorType = string(r.GetOrchestratorType())
 		deploymentParams.PodResourceClaims = namedDraResources.GetPodResourceClaims()
 
-		modelLayout, err := nimsource.ResolveModelLayout(ctx, r.imageProtocolResolver, nimService, &nimCache)
+		modelLayout, err := nimsource.ResolveAndPersistModelLayout(ctx, r.imageProtocolResolver, r.Client, nimService, &nimCache)
 		if err != nil {
 			return ctrl.Result{}, err
 		}

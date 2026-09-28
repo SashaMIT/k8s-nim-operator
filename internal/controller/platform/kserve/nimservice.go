@@ -514,7 +514,7 @@ func (r *NIMServiceReconciler) renderAndSyncInferenceService(ctx context.Context
 
 	isvcParams.PodResourceClaims = namedDraResources.GetPodResourceClaims()
 
-	modelLayout, err := nimsource.ResolveModelLayout(ctx, r.imageProtocolResolver, nimService, nimCache)
+	modelLayout, err := nimsource.ResolveAndPersistModelLayout(ctx, r.imageProtocolResolver, r.Client, nimService, nimCache)
 	if err != nil {
 		return err
 	}
